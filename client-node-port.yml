@@ -3,7 +3,7 @@ kind: Service # Object Type - Used to setup networking in a kubernetes cluster
 metadata:
   name: client-node-port
 spec:
-  type: NodePort
+  type: NodePort # Exposes a set of pods to the ourside world (only good for dev. purposes)
   ports:
     - port: 3050 # for another pod or another container inside our application to communicate with this container (client container)
       targetPort: 3000 # identical to the containerPort: 3000 in the client-pod.yml file ; port inside the container/pod to forward the traffic to
