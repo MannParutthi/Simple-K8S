@@ -1,0 +1,34 @@
+=> In each Node, there is a copy of docker running
+
+=> Kubernetes is a system to deploy containerized apps
+
+=> Nodes are individual machines (or vm's) that run containers
+
+=> Masters are machines (or vm's) with a set of programs to manage nodes
+
+=> Kubernetes didn't build our images - it got them from somewhere else
+
+=> Kubernetes (the master) decided where to run each container - each nodecan run a dissimilar set of containers
+
+=> To deploy something, we update the desired state of the master with a config file
+
+=> The master works constantly to meet your desired state
+
+
+
+
+Pod Object
+    => Runs a single set of closely related containers
+    => Good for one-off (single container or a very small group of container) dev purposes
+    => Rarely used directly in production
+    => Has restrictions on updating certain variable of config (e.g. updating container port & name of container  not allowed)
+
+Deployment Object
+    => Runs a set of identical (each pod running exact same set of containers with identical config) pods (one or more)
+    => Monitors the state of each pod, updating as necessary (watches state of all the diff pods and maintains them)
+    => Good for dev and production
+    => No restrictions on updating config variables ; it updates the pod & if not possible then kills the pods and creates a new one
+
+Kube-Proxy 
+    => All the requests comes into a node through the kube-proxy
+    => This proxy inspects the request and decides how to route it to different services or different pods that are inside the node

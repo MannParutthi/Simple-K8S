@@ -1,0 +1,38 @@
+# Deployment Object - Used to maintain a set of identical pods, ensuring that they have the correct config and that the right number exists at all times (similar to Pod Object - we can use either of them to run containers for our application)
+
+apiVersion: apps/v1
+kind: Deployment # Used to maintain a set of identical pods, ensuring that they have the correct config
+metadata:
+  name: client-deployment
+spec:
+  replicas: 2 # number of different pods to create which are identical to each other (2 pods - each using identical template)
+  selector: # similar to the selector in the service object => to find each object/pod with this label & manage (handle) them after they're created
+    matchLabels:
+      component: web
+  template: # template for the pods => configuration that is going to be used to create every single pod created & maintained by this deployment
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: client
+          image: mananparuthi/multi-worker #stephengrider/multi-client # image to use to create the container
+          ports: # port mapping => to expose a port inside the container to the outside world
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+# To create and run the deployment: "kubeclt apply -f client-deployment.yml"
+# To check the status of the deployment: "kubectl get deployments"
+# To get detailed info about the deployment: "kubectl describe deployment client-deployment"
+# To delete the deployment: "kubectl delete deploy client-deployment" (syntax => "kubectl delete deploy <deployment_name>")
+
+# name (client-pod) and kind (Pod) together uniquely identify the object in the cluster
+# If we update the config file and run "kubeclt apply -f client-deployment.yml" again, it (master) will update the existing pod with the new config if name and kind are same ; otherwise it will create a new pod with the new config
+
+# Can not use environment variables in the config files
+
+# Syntax to update the image from CLI without editing config file : "kubectl set image <object_type>/<object_name> <container_name> = <new_image_to_use>"
+# Imperative command to change the image using CLI : "kubectl set image deployment/client-deployment client=mananparuthi/multi-client:v2"

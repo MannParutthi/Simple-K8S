@@ -1,0 +1,39 @@
+# Configuration to create object => one config file per container / object
+# Object Types can be StatefulSet (apiVersion: apps/v1) , ReplicaController, Pod (apiVersion: v1), Service (apiVersion: v1) etc. 
+# Object serve different purposes - running a container, monitoring a container, setting up networking etc. 
+
+apiVersion: v1 # Each API version defines a set of 'objects' we can use => e.g. v1, apps/v1, etc.
+kind: Pod # Object Type - Used to run one or more closely related containers
+metadata:
+  name: client-pod
+  labels:
+    component: web # label to identify the pod and associate it with a service; it can be anything e.g. tier: frontend, component: web, etc 
+spec:
+  containers:
+    - name: client
+      image: mananparuthi/multi-worker #stephengrider/multi-client # image to use to create the container
+      ports: # port mapping => to expose a port inside the container to the outside world
+        - containerPort: 3000
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+
+
+# Pod => Node (a VM / Physical Machine) contains multiple pods => Each pod contains one or more containers grouped together for a common/similar purpose 
+# tightly coupled relationship between containers in the same pod - must be exceuted together => e.g. a pod can contain a container for a web server and a container for a logging agent to monitor the web server (primary container and support container)
+# Pod is the smallest object type we can create & deploy in kubernetes => We can't create & deply a single container directly in kubernetes
+
+
+# To create and run the pod: "kubeclt apply -f client-pod.yml"
+# To check the status of the pod: "kubectl get pods"
+# Pod restarts automatically if it crashes (master manages it) => e.g. if the container inside the pod crashes, the pod will restart the container automatically
+# To delete the pod: "kubectl delete -f client-pod.yml"
+# To get detailed info about the pod: "kubectl describe pod client-pod"
+# To get detailed info about all the pods: "kubectl describe pod"
+# To get logs of the pod: "kubectl logs client-pod"
+# To execute a command inside the pod: "kubectl exec -it client-pod sh" (-it => interactive terminal)
+# docker system prune -a => to delete all the images from the local system (to force the pod to download the image again) (remove cache)
+
+# name (client-pod) and kind (Pod) together uniquely identify the object in the cluster
+# If we update the config file and run "kubeclt apply -f client-pod.yml" again, it (master) will update the existing pod with the new config if name and kind are same

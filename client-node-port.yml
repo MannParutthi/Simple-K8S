@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service # Object Type - Used to setup networking in a kubernetes cluster
+metadata:
+  name: client-node-port
+spec:
+  type: NodePort
+  ports:
+    - port: 3050 # for another pod or another container inside our application to communicate with this container (client container)
+      targetPort: 3000 # identical to the containerPort: 3000 in the client-pod.yml file ; port inside the container/pod to forward the traffic to
+      nodePort: 31515 # port to access the container from outside the cluster in the local system's browser (range 30000-32767)
+  selector:
+    component: web # to find every other object with the label of 'component: web' and forward the traffic to them (pod's metadata has label 'component: web' - helps to link the service to the pod)
+
+# Service Object has 4 types:
+  # 1. ClusterIP - Exposes a set of pods to other objects in the cluster
+  # 2. NodePort - Exposes a set of containers to the outside world to use them in a browser (only good for development purposes coz weird port no.)
+  # 3. LoadBalancer - Legacy way of getting network traffic into a cluster (AWS only)
+  # 4. Ingress - Exposes a set of services to the outside world (production grade)
+
+
+# To create and run the service: "kubeclt apply -f client-node-port.yml"
+# To check the status of the service: "kubectl get services"
+# To delete service: "kubectl delete svc client-node-port" (syntax => "kubectl delete svc <service_name>")
+
+# To get detailed info about the service: "kubectl describe service client-node-port"
