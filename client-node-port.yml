@@ -20,6 +20,6 @@ spec:
 
 # To create and run the service: "kubeclt apply -f client-node-port.yml"
 # To check the status of the service: "kubectl get services"
-# To delete service: "kubectl delete svc client-node-port" (syntax => "kubectl delete svc <service_name>")
+# To delete service: "kubectl delete service client-node-port" (syntax => "kubectl delete service <service_name>")
 
 # To get detailed info about the service: "kubectl describe service client-node-port"

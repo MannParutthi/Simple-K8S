@@ -27,7 +27,7 @@ spec:
 # To create and run the deployment: "kubeclt apply -f client-deployment.yml"
 # To check the status of the deployment: "kubectl get deployments"
 # To get detailed info about the deployment: "kubectl describe deployment client-deployment"
-# To delete the deployment: "kubectl delete deploy client-deployment" (syntax => "kubectl delete deploy <deployment_name>")
+# To delete the deployment: "kubectl delete deployment client-deployment" (syntax => "kubectl delete deployment <deployment_name>")
 
 # name (client-pod) and kind (Pod) together uniquely identify the object in the cluster
 # If we update the config file and run "kubeclt apply -f client-deployment.yml" again, it (master) will update the existing pod with the new config if name and kind are same ; otherwise it will create a new pod with the new config
