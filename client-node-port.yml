@@ -14,8 +14,8 @@ spec:
 # Service Object has 4 types:
   # 1. ClusterIP - Exposes a set of pods to other objects in the cluster
   # 2. NodePort - Exposes a set of containers to the outside world to use them in a browser (only good for development purposes coz weird port no.)
-  # 3. LoadBalancer - Legacy way of getting network traffic into a cluster (AWS only)
-  # 4. Ingress - Exposes a set of services to the outside world (production grade)
+  # 3. LoadBalancer - Legacy way of getting network traffic into a cluster (with cloud) - Only used to provide networking reach to one set of pods (attached to a single deployment)
+  # 4. Ingress - Exposes a set of services to the outside world (production grade) - provides networking reach to multiple pods (attached to multiple deployments - at node level)
 
 
 # To create and run the service: "kubeclt apply -f client-node-port.yml"
